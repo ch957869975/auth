@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+  <script>
+    const clientID = 'aaa7a3ab72f0801a2d7d'
+    const clientSecret = 'e7bb8fb14d71e6773670f8b19e4fc77675db0d78'
+    function getQueryString(name) {
+      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+      var r = window.location.search.substr(1).match(reg);
+      if (r != null) return unescape(r[2]); return null;
+    }
+    const auth = async () => {
+      const requestToken = getQueryString('code')
+      const tokenResponse = await axios({
+        method: 'post',
+        url: 'https://gh-oauth.openapi.link',
+        headers: {
+          accept: 'application/json'
+        },
+        data: {
+          client_id: clientID,
+          client_secret: clientSecret,
+          code: requestToken
+        }
+      });
+      const accessToken = tokenResponse.data.access_token;
+      console.log(`access token: ${accessToken}`);
+
+      const result = await axios({
+        method: 'get',
+        url: `https://api.github.com/user`,
+        headers: {
+          accept: 'application/json',
+          Authorization: `token ${accessToken}`
+        }
+      });
+      console.log(result.data);
+    }
+    auth()
+
+  </script>
+</body>
+
+</html>
