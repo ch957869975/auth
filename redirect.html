@@ -46,10 +46,7 @@
         }
       });
       window.postMessage(
-        JSON.stringify({
-          user: result.data,
-          token: accessToken
-        })
+        accessToken
       )
       console.log(result.data);
     }
