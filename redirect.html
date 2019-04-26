@@ -6,10 +6,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
+  <style>
+    @keyframes donut-spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .donut {
+      margin: 0 auto;
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-left-color: #7983ff;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: donut-spin 1.2s linear infinite;
+    }
+  </style>
 </head>
 
 <body>
-  恭喜你，认证成功了
+  <div class="donut"></div>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
   <script>
@@ -37,18 +57,17 @@
       const accessToken = tokenResponse.data.access_token;
       console.log(`access token: ${accessToken}`);
 
-      const result = await axios({
-        method: 'get',
-        url: `https://api.github.com/user`,
-        headers: {
-          accept: 'application/json',
-          Authorization: `token ${accessToken}`
-        }
-      });
+      // const result = await axios({
+      //   method: 'get',
+      //   url: `https://api.github.com/user`,
+      //   headers: {
+      //     accept: 'application/json',
+      //     Authorization: `token ${accessToken}`
+      //   }
+      // });
       window.postMessage(
         accessToken
       )
-      console.log(result.data);
     }
     auth()
 
