@@ -45,6 +45,10 @@
           Authorization: `token ${accessToken}`
         }
       });
+      window.postMessage({
+        user: result.data,
+        token: accessToken
+      })
       console.log(result.data);
     }
     auth()
